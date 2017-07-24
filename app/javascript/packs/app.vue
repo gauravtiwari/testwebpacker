@@ -46,7 +46,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn flat>Cancelll</v-btn>
+                                <v-btn flat>Cance</v-btn>
                                 <v-btn flat primary>Submitе</v-btn>
                             </v-card-actions>
                         </v-card>
