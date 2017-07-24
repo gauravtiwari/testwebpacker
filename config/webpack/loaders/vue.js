@@ -1,8 +1,10 @@
 module.exports = {
   test: /.vue$/,
   loader: 'vue-loader',
-  options: {
+	options: {
+  	extractStyles: false,
     extractCSS: true,
+
     loaders: {
       js: 'babel-loader',
       file: 'file-loader',
