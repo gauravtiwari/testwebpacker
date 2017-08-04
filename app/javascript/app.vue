@@ -1,90 +1,97 @@
-<template>
-    <v-app
-            id="sandbox"
-            :dark=true
-            standalone
-    >
-        <v-navigation-drawer
-                v-model="primaryDrawer.model"
-                :persistent="primaryDrawer.type === 'persistent'"
-                :clipped=true
-                absolute
-                overflow
-                enable-resize-watcher
-        ></v-navigation-drawer>
-        <v-toolbar>
-            <v-toolbar-side-icon @click.native.stop="primaryDrawer.model = !primaryDrawer.model" v-if="primaryDrawer.type !== 'permanent'"></v-toolbar-side-icon>
-            <v-toolbar-title>zavalie</v-toolbar-title>
-        </v-toolbar>
-        <main>
-            <v-container fluid>
-                <v-layout align-center justify-center>
-                    <v-flex xs10>
-                        <v-card>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs12 md6>
-                                        <span>Scheme</span>
-                                        <v-switch primary label="Dark" v-model="dark"></v-switch>
-                                    </v-flex>
-                                    <v-flex xs12 md6>
-                                        <span>Drawer</span>
-                                        <v-radio
-                                                primary
-                                                :label="drawer"
-                                                v-model="primaryDrawer.type"
-                                                :value="drawer.toLowerCase()"
-                                                v-for="drawer in drawers"
-                                                :key="drawer"
-                                        ></v-radio>
-                                    </v-flex>
-                                    <v-flex xs12 md6>
-                                        <span>Footer</span>
-                                        <v-switch label="Fixed" v-model="footer.fixed" primary></v-switch>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn flat>Cance</v-btn>
-                                <v-btn flat primary>Submitе</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </main>
-        <v-footer :absolute="footer.fixed">
-            <span>&copy; {{ new Date().getFullYear() }}</span>
-        </v-footer>
-    </v-app>
+<template lang="pug">
+  #app
+    .el-menu.el-menu-demo.el-menu--horizontal.el-menu--dark
+      div(:class="{ 'container': !$route.meta.mainNavFull }")
+        router-link.el-menu-branding.pl-0.pr-0(to="/")
+          i.el-icon-share
+
+        router-link.el-menu-branding.pr-5(to="/") branding
+
+        router-link.el-menu-item(to="/") Foo
+        router-link.el-menu-item(to="/") Bar
+
+        template(v-if="$store.getters.getIsUserSignedIn")
+          el-dropdown.el-menu-item.pull-right(style="padding-top: 9px")
+            span.el-dropdown-link
+              img.img-circle(:src="$store.state.usersStore.currentUser.avatarUrl" width="40" height="40" v-if="$store.state.usersStore.currentUser.avatarUrl")
+              .currentuser-avatar-placeholder
+
+            el-dropdown-menu(slot="dropdown")
+              el-dropdown-item
+                router-link.link-inherit(to="/")
+                  | Foo
+              el-dropdown-item
+                router-link.link-inherit(to="/")
+                  | Bar
+              el-dropdown-item(divided)
+                a.link-inherit
+                  | Foo
+
+          router-link.el-menu-item.pull-right.el-menu-item-icon(to="/")
+            i.el-icon-star-on
+
+          router-link.el-menu-item.pull-right.el-menu-item-icon(to="/")
+            el-badge(:value="3")
+              i.el-icon-message
+
+        template(v-else)
+          a.el-menu-item.pull-right(@click.prevent="signOutClicked" href="#") Foo
+          a.el-menu-item.pull-right(@click.prevent="signInClicked" href="#") Bar
+
+    router-view
 </template>
 
 <script>
-	export default {
-		data: () => ({
-			dark: true,
-			drawers: ['Permanent', 'Persistent', 'Temporary'],
-			primaryDrawer: {
-				model: true,
-				type: 'persistent',
-				clipped: false,
-				floating: false,
-				mini: false
-			},
-			footer: {
-				fixed: true
-			}
-		})
-	}
+export default {
+  data () {
+    return {
+    }
+  },
+
+  methods: {
+  }
+}
 </script>
 
 <style>
-    #sandbox {
-        border: 1px solid rgba(0, 0, 0, .1);
-        overflow: hidden;
-    }
-    #sandbox .container, #sandbox {
-        min-height: 700px;
-    }
+.el-menu-branding {
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  margin: 0;
+  padding: 0 20px;
+  color: #bfcbd9;
+  text-decoration: none;
+}
+
+.el-menu-item-icon {
+  font-size: 1.3rem !important;
+  padding: 0 15px !important;
+}
+
+.el-menu-item-icon sup {
+  transform: translateY(68%) translateX(100%) !important;
+  font-size: 10px;
+  height: 16px;
+  line-height: 16px;
+  padding: 0 5px;
+  border: 0px;
+}
+
+a.el-menu-item {
+  text-decoration: none;
+}
+
+.el-menu-item-icon i {
+  margin-right: 0 !important;
+}
+
+.el-menu .currentuser-avatar-placeholder {
+  width: 40;
+  height: 40;
+  display: block;
+  border-radius: 50%;
+  background: #eee;
+  overflow: hidden;
+}
 </style>
