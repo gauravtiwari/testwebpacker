@@ -15,8 +15,17 @@
   </head>
 
   <body>
-    <div id="app">
-      <%= yield %>
-    </div>
+    <%= content_tag :div, '',
+      id: 'app',
+      data: {
+        user: {
+          displayname: 'mbajur',
+          id: 1,
+          slug: 'mbajur',
+          avatarUrl: 'http://placehold.it/50x50',
+          signedIn: true
+        }
+      }.to_json
+    %>
   </body>
 </html>
